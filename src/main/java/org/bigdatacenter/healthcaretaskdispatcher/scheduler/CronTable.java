@@ -52,7 +52,7 @@ public class CronTable {
 
         for (Integer dataSetUID : dataSetUIDList) {
             final String response = restTemplate.getForObject(extractionURL, String.class, dataSetUID);
-            logger.info(String.format("%s - The extraction request for dataSetUID #%d has been dispatched. Response messages are: %s", currentThreadName, dataSetUID, response));
+            logger.info(String.format("%s - The extraction request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
         }
     }
 
@@ -63,7 +63,7 @@ public class CronTable {
 
         for (Integer dataSetUID : dataSetUIDList) {
             final String response = restTemplate.getForObject(workflowURL, String.class, dataSetUID);
-            logger.info(String.format("%s - The work-flow request for dataSetUID #%d has been dispatched. Response messages are: %s", currentThreadName, dataSetUID, response));
+            logger.info(String.format("%s - The scenario request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
         }
     }
 }
