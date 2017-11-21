@@ -17,9 +17,9 @@ public interface MetaDataDBMapper {
     /*
     * Transaction Database Mapper
     */
-    @Select("SELECT dataSetUID FROM health_care_ui.tr_dataset_list WHERE processState = 4 AND dataType = 1 ORDER BY dataSetUID ASC")
+    @Select("SELECT dataSetUID FROM health_care_ui.tr_dataset_list WHERE processState = 5 AND dataType = 1 ORDER BY dataSetUID ASC")
     List<Integer> readAcceptedExtractionRequest();
 
-    @Select("SELECT dataSetUID FROM health_care_ui.tr_dataset_list WHERE processState = 4 AND dataType = 2 ORDER BY dataSetUID ASC")
+    @Select("SELECT dataSetUID FROM health_care_ui.tr_dataset_list WHERE processState = 5 AND dataType = 2 ORDER BY dataSetUID ASC")
     List<Integer> readAcceptedWorkFlowRequest();
 }
