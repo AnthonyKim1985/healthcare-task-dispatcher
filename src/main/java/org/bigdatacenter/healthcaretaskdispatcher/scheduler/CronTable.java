@@ -51,8 +51,13 @@ public class CronTable {
         logger.debug(String.format("%s - The dispatchExtractionTask has been scheduled.", currentThreadName));
 
         for (Integer dataSetUID : dataSetUIDList) {
-            final String response = restTemplate.getForObject(extractionURL, String.class, dataSetUID);
-            logger.info(String.format("%s - The extraction request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
+            try {
+                final String response = restTemplate.getForObject(extractionURL, String.class, dataSetUID);
+                logger.info(String.format("%s - The extraction request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
+            } catch (Exception e) {
+                logger.error(String.format("%s - The REST API error occurs: %s", currentThreadName, e.getMessage()));
+                e.printStackTrace();
+            }
         }
     }
 
@@ -62,8 +67,13 @@ public class CronTable {
         logger.debug(String.format("%s - The dispatchWorkFlowTask has been scheduled.", currentThreadName));
 
         for (Integer dataSetUID : dataSetUIDList) {
-            final String response = restTemplate.getForObject(workflowURL, String.class, dataSetUID);
-            logger.info(String.format("%s - The scenario request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
+            try {
+                final String response = restTemplate.getForObject(workflowURL, String.class, dataSetUID);
+                logger.info(String.format("%s - The scenario request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
+            } catch (Exception e) {
+                logger.error(String.format("%s - The REST API error occurs: %s", currentThreadName, e.getMessage()));
+                e.printStackTrace();
+            }
         }
     }
 }
