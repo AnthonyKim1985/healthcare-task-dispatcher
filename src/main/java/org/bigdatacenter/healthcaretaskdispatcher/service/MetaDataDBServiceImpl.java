@@ -27,6 +27,11 @@ public class MetaDataDBServiceImpl implements MetaDataDBService {
 
     @Override
     public List<Integer> findAcceptedWorkFlowRequest() {
-        return metaDataDBMapper.readAcceptedWorkFlowRequest();
+        try {
+            return metaDataDBMapper.readAcceptedWorkFlowRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
