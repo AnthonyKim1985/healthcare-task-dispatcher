@@ -17,7 +17,12 @@ public class MetaDataDBServiceImpl implements MetaDataDBService {
 
     @Override
     public List<Integer> findAcceptedExtractionRequest() {
-        return metaDataDBMapper.readAcceptedExtractionRequest();
+        try {
+            return metaDataDBMapper.readAcceptedExtractionRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
