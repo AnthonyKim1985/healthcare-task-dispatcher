@@ -1,5 +1,6 @@
 package org.bigdatacenter.healthcaretaskdispatcher.scheduler;
 
+import org.bigdatacenter.healthcaretaskdispatcher.api.caller.DataIntegrationPlatformAPICaller;
 import org.bigdatacenter.healthcaretaskdispatcher.service.MetaDataDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +35,12 @@ public class CronTable {
 
     private final MetaDataDBService metaDataDBService;
 
+    private final DataIntegrationPlatformAPICaller dataIntegrationPlatformAPICaller;
+
     @Autowired
-    public CronTable(MetaDataDBService metaDataDBService) {
+    public CronTable(MetaDataDBService metaDataDBService, DataIntegrationPlatformAPICaller dataIntegrationPlatformAPICaller) {
         this.metaDataDBService = metaDataDBService;
+        this.dataIntegrationPlatformAPICaller = dataIntegrationPlatformAPICaller;
 
         this.restTemplate = new RestTemplate();
         this.restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -71,6 +75,7 @@ public class CronTable {
                 final String response = restTemplate.getForObject(workflowURL, String.class, dataSetUID);
                 logger.info(String.format("%s - The scenario request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
             } catch (Exception e) {
+                dataIntegrationPlatformAPICaller.callUpdateProcessState(dataSetUID, DataIntegrationPlatformAPICaller.PROCESS_STATE_CODE_REJECTED);
                 logger.error(String.format("%s - The REST API error occurs: %s", currentThreadName, e.getMessage()));
                 e.printStackTrace();
             }
