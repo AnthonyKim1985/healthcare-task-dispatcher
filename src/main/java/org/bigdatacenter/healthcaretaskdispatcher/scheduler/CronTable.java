@@ -59,6 +59,7 @@ public class CronTable {
                 final String response = restTemplate.getForObject(extractionURL, String.class, dataSetUID);
                 logger.info(String.format("%s - The extraction request for #%d has been dispatched. (%s)", currentThreadName, dataSetUID, response));
             } catch (Exception e) {
+                dataIntegrationPlatformAPICaller.callUpdateProcessState(dataSetUID, DataIntegrationPlatformAPICaller.PROCESS_STATE_CODE_REJECTED);
                 logger.error(String.format("%s - The REST API error occurs: %s", currentThreadName, e.getMessage()));
                 e.printStackTrace();
             }
